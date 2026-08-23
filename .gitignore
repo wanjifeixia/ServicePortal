@@ -1,3 +1,5 @@
 .env
+*.pem
+*.pem.tmp
 *.log
 node_modules/

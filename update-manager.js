@@ -90,7 +90,11 @@ async function checkProject(project) {
     return { ...base, state: "error", message: error.message };
   }
 
-  if (!project.updateEnabled || !project.deployPath) {
+  if (!project.updateEnabled) {
+    return { ...base, state: "unconfigured", latestSha: remote.sha.slice(0, 7), latestMessage: remote.message, latestAt: remote.publishedAt, releaseUrl: remote.url, message: "服务器更新白名单未启用" };
+  }
+
+  if (!project.deployPath) {
     return { ...base, state: "unconfigured", latestSha: remote.sha.slice(0, 7), latestMessage: remote.message, latestAt: remote.publishedAt, releaseUrl: remote.url, message: "尚未配置服务器部署目录" };
   }
 
