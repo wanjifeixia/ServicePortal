@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sub2api",
+    "repository": "Wei-Shaw/sub2api",
+    "branch": "main",
+    "deployPath": "/root/sub2api-deploy",
+    "composeFile": "docker-compose.yml",
+    "updateEnabled": true
+  },
+  {
+    "id": "inboxops",
+    "repository": "genz27/InboxOps",
+    "branch": "main",
+    "deployPath": "/opt/inboxops",
+    "composeFile": "compose.yaml",
+    "updateEnabled": true
+  },
+  {
+    "id": "gpt-outlook-register",
+    "repository": "Regert888/gpt-outlook-register",
+    "branch": "main",
+    "deployPath": "",
+    "composeFile": "docker-compose.yml",
+    "updateEnabled": false
+  },
+  {
+    "id": "chatgpt2api",
+    "repository": "basketikun/chatgpt2api",
+    "branch": "main",
+    "deployPath": "/opt/chatgpt2api",
+    "composeFile": "docker-compose.local.yml",
+    "updateEnabled": true
+  },
+  {
+    "id": "icloud-privacy-mail",
+    "repository": "q1953258942/iCloud-Privacy-Mail",
+    "branch": "master",
+    "deployPath": "",
+    "composeFile": "docker-compose.yml",
+    "updateEnabled": false
+  }
+]

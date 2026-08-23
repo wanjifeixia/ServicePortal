@@ -1,0 +1,10 @@
+{
+  "name": "serviceportal",
+  "version": "0.2.0",
+  "private": true,
+  "description": "ServicePortal unified access portal",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
