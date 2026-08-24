@@ -14,15 +14,18 @@ function readProjectConfig(configPath) {
 function validateProject(item) {
   const id = String(item.id || "").trim();
   const repository = String(item.repository || "").trim();
+  const serviceName = String(item.serviceName || "").trim();
   if (!/^[a-z0-9-]+$/.test(id)) throw new Error(`项目 ${id || "unknown"} 的 id 无效`);
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository)) throw new Error(`项目 ${item.id || "unknown"} 的 repository 无效`);
   if (!/^[A-Za-z0-9._/-]+$/.test(String(item.branch || ""))) throw new Error(`项目 ${item.id || "unknown"} 的 branch 无效`);
+  if (serviceName && !/^[A-Za-z0-9_.@-]+$/.test(serviceName)) throw new Error(`项目 ${item.id || "unknown"} 的 serviceName 无效`);
   return {
     id,
     repository,
     branch: String(item.branch || "main").trim(),
     deployPath: String(item.deployPath || "").trim(),
     composeFile: String(item.composeFile || "docker-compose.yml").trim(),
+    serviceName,
     updateEnabled: item.updateEnabled === true,
   };
 }
@@ -139,10 +142,13 @@ async function updateProject(project) {
   const unresolvedDeployPath = path.resolve(project.deployPath);
   if (!fs.existsSync(unresolvedDeployPath)) throw new Error("部署目录不存在或不是 Git 仓库");
   const deployPath = fs.realpathSync(unresolvedDeployPath);
-  const unresolvedComposePath = path.resolve(deployPath, project.composeFile);
-  if (!fs.existsSync(unresolvedComposePath)) throw new Error("找不到项目的 Docker Compose 文件");
-  const composePath = fs.realpathSync(unresolvedComposePath);
-  if (!composePath.startsWith(`${deployPath}${path.sep}`)) throw new Error("Compose 文件路径不在部署目录中");
+  let composePath = "";
+  if (!project.serviceName) {
+    const unresolvedComposePath = path.resolve(deployPath, project.composeFile);
+    if (!fs.existsSync(unresolvedComposePath)) throw new Error("找不到项目的 Docker Compose 文件");
+    composePath = fs.realpathSync(unresolvedComposePath);
+    if (!composePath.startsWith(`${deployPath}${path.sep}`)) throw new Error("Compose 文件路径不在部署目录中");
+  }
   if (!fs.existsSync(path.join(deployPath, ".git"))) throw new Error("部署目录不存在或不是 Git 仓库");
 
   runningUpdates.add(project.id);
@@ -161,8 +167,12 @@ async function updateProject(project) {
     }
 
     await run("git", ["-C", deployPath, "merge", "--ff-only", `origin/${project.branch}`], { timeoutMs: 60_000 });
-    await run("docker", ["compose", "-f", composePath, "up", "-d", "--build"], { cwd: deployPath, timeoutMs: 15 * 60_000 });
-    return { ok: true, changed: true, previousVersion: previousSha.trim().slice(0, 7), version: remoteSha.trim().slice(0, 7), message: "代码与 Docker Compose 服务已更新" };
+    if (project.serviceName) {
+      await run("sudo", ["-n", "systemctl", "restart", project.serviceName], { timeoutMs: 60_000 });
+    } else {
+      await run("docker", ["compose", "-f", composePath, "up", "-d", "--build"], { cwd: deployPath, timeoutMs: 15 * 60_000 });
+    }
+    return { ok: true, changed: true, previousVersion: previousSha.trim().slice(0, 7), version: remoteSha.trim().slice(0, 7), message: project.serviceName ? "代码已更新并重启 systemd 服务" : "代码与 Docker Compose 服务已更新" };
   } finally {
     runningUpdates.delete(project.id);
   }

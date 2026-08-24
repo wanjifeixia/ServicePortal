@@ -19,9 +19,10 @@
     "id": "gpt-outlook-register",
     "repository": "Regert888/gpt-outlook-register",
     "branch": "main",
-    "deployPath": "",
+    "deployPath": "/opt/gpt-outlook-register",
     "composeFile": "docker-compose.yml",
-    "updateEnabled": false
+    "serviceName": "gpt-outlook-register.service",
+    "updateEnabled": true
   },
   {
     "id": "chatgpt2api",
@@ -35,8 +36,9 @@
     "id": "icloud-privacy-mail",
     "repository": "q1953258942/iCloud-Privacy-Mail",
     "branch": "master",
-    "deployPath": "",
+    "deployPath": "/opt/icloud-privacy-mail",
     "composeFile": "docker-compose.yml",
-    "updateEnabled": false
+    "serviceName": "icloud-privacy-mail.service",
+    "updateEnabled": true
   }
 ]
