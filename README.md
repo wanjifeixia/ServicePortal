@@ -17,7 +17,7 @@ npm start
 1. 在服务器环境变量中设置管理员令牌。访问网页时使用固定账号 `admin`，密码填写此令牌；登录成功后，更新操作不再重复验证：
 
 ```bash
-export SERVICEPORTAL_ADMIN_TOKEN='使用密码管理器生成的长随机值'
+export SERVICEPORTAL_ADMIN_TOKEN='使用密码管理器生成的长随机值' 
 ```
 
 2. 按实际部署情况编辑 `projects.config.json`：
