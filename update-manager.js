@@ -28,6 +28,7 @@ function validateProject(item) {
     serviceName,
     updateEnabled: item.updateEnabled === true,
     skipUpdateCheck: item.skipUpdateCheck === true,
+    forceUpdate: item.forceUpdate === true,
   };
 }
 
@@ -161,22 +162,28 @@ async function updateProject(project) {
     if (repositoryFromRemote(originUrl) !== project.repository.toLowerCase()) throw new Error("部署目录的 GitHub 仓库与白名单不匹配");
 
     const { stdout: changes } = await run("git", ["-C", deployPath, "status", "--porcelain", "--untracked-files=no"], { timeoutMs: 10_000 });
-    if (changes) throw new Error("项目存在未提交的已跟踪文件修改，请先处理后再更新");
+    if (changes && !project.forceUpdate) throw new Error("项目存在未提交的已跟踪文件修改，请先处理后再更新");
 
     const { stdout: previousSha } = await run("git", ["-C", deployPath, "rev-parse", "HEAD"], { timeoutMs: 10_000 });
     await run("git", ["-C", deployPath, "fetch", "--prune", "origin", project.branch], { timeoutMs: 180_000 });
     const { stdout: remoteSha } = await run("git", ["-C", deployPath, "rev-parse", `origin/${project.branch}`], { timeoutMs: 10_000 });
-    if (previousSha.trim() === remoteSha.trim()) {
+    if (previousSha.trim() === remoteSha.trim() && !changes) {
       return { ok: true, changed: false, version: previousSha.trim().slice(0, 7), message: "当前已经是最新版本" };
     }
 
-    await run("git", ["-C", deployPath, "merge", "--ff-only", `origin/${project.branch}`], { timeoutMs: 60_000 });
+    if (project.forceUpdate) {
+      // This project is explicitly configured to match GitHub exactly.
+      await run("git", ["-C", deployPath, "reset", "--hard", `origin/${project.branch}`], { timeoutMs: 60_000 });
+      await run("git", ["-C", deployPath, "clean", "-fd"], { timeoutMs: 60_000 });
+    } else {
+      await run("git", ["-C", deployPath, "merge", "--ff-only", `origin/${project.branch}`], { timeoutMs: 60_000 });
+    }
     if (project.serviceName) {
       await run("sudo", ["-n", "systemctl", "restart", project.serviceName], { timeoutMs: 60_000 });
     } else {
       await run("docker", ["compose", "-f", composePath, "up", "-d", "--build"], { cwd: deployPath, timeoutMs: 15 * 60_000 });
     }
-    return { ok: true, changed: true, previousVersion: previousSha.trim().slice(0, 7), version: remoteSha.trim().slice(0, 7), message: project.serviceName ? "代码已更新并重启 systemd 服务" : "代码与 Docker Compose 服务已更新" };
+    return { ok: true, changed: true, previousVersion: previousSha.trim().slice(0, 7), version: remoteSha.trim().slice(0, 7), message: project.forceUpdate ? (project.serviceName ? "代码已强制同步到 GitHub 并重启 systemd 服务" : "代码已强制同步到 GitHub 并重建 Docker Compose 服务") : project.serviceName ? "代码已更新并重启 systemd 服务" : "代码与 Docker Compose 服务已更新" };
   } finally {
     runningUpdates.delete(project.id);
   }

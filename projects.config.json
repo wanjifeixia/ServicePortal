@@ -31,7 +31,8 @@
     "deployPath": "/opt/gpt-outlook-register",
     "composeFile": "docker-compose.yml",
     "serviceName": "gpt-outlook-register.service",
-    "updateEnabled": true
+    "updateEnabled": true,
+    "forceUpdate": true
   },
   {
     "id": "chatgpt2api",

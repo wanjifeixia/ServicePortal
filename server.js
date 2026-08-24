@@ -210,7 +210,7 @@ function serveStatic(request, response, url) {
       response.writeHead(error.code === "ENOENT" ? 404 : 500, securityHeaders()).end("Not found");
       return;
     }
-    response.writeHead(200, { ...securityHeaders(), "Content-Type": contentTypes[path.extname(filePath)] || "application/octet-stream" });
+    response.writeHead(200, { ...securityHeaders(), "Cache-Control": "no-cache, must-revalidate", "Content-Type": contentTypes[path.extname(filePath)] || "application/octet-stream" });
     response.end(request.method === "HEAD" ? undefined : content);
   });
 }
