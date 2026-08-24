@@ -1,11 +1,20 @@
 [
   {
+    "id": "serviceportal",
+    "repository": "wanjifeixia/ServicePortal",
+    "branch": "main",
+    "deployPath": "/opt/serviceportal",
+    "updateEnabled": false,
+    "skipUpdateCheck": true
+  },
+  {
     "id": "sub2api",
     "repository": "Wei-Shaw/sub2api",
     "branch": "main",
     "deployPath": "/root/sub2api-deploy",
     "composeFile": "docker-compose.yml",
-    "updateEnabled": true
+    "updateEnabled": false,
+    "skipUpdateCheck": true
   },
   {
     "id": "inboxops",
@@ -40,5 +49,12 @@
     "composeFile": "docker-compose.yml",
     "serviceName": "icloud-privacy-mail.service",
     "updateEnabled": true
+  },
+  {
+    "id": "cloudflare-temp-email",
+    "repository": "dreamhunter2333/cloudflare_temp_email",
+    "branch": "main",
+    "updateEnabled": false,
+    "skipUpdateCheck": true
   }
 ]

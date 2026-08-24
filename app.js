@@ -1,9 +1,11 @@
 const initialProjects = [
+  { id: "serviceportal", name: "ServicePortal", description: "统一服务门户管理中心", url: "https://portal.pptqq.com/", repo: "https://github.com/wanjifeixia/ServicePortal", category: "tools", categoryName: "工具服务", icon: "SP", status: "active", statusText: "可访问", favorite: true },
   { id: "sub2api", name: "Sub2API", description: "统一的 AI API 订阅与账号服务", url: "https://pptqq.com", repo: "https://github.com/Wei-Shaw/sub2api", category: "ai", categoryName: "AI & API", icon: "S2", status: "active", statusText: "可访问", favorite: true },
   { id: "inboxops", name: "InboxOps", description: "Outlook 邮箱池与自动化管理", url: "https://inbox.pptqq.com", repo: "https://github.com/genz27/InboxOps", category: "mail", categoryName: "邮箱服务", icon: "IO", status: "active", statusText: "可访问", favorite: true },
   { id: "gpt-outlook-register", name: "GPT Outlook Register", description: "ChatGPT Outlook 注册与辅助工具", url: "https://gpt-outlook-register.pptqq.com/", repo: "https://github.com/Regert888/gpt-outlook-register", category: "tools", categoryName: "工具服务", icon: "GR", status: "active", statusText: "可访问", favorite: false },
   { id: "chatgpt2api", name: "ChatGPT2API", description: "ChatGPT 网页能力 API 反代服务", url: "https://chatgpt2api.pptqq.com/", repo: "https://github.com/basketikun/chatgpt2api", category: "ai", categoryName: "AI & API", icon: "C2", status: "active", statusText: "可访问", favorite: true },
   { id: "icloud-privacy-mail", name: "iCloud Privacy Mail", description: "iCloud 隐私邮箱服务", url: "https://icloud-privacy-mail.pptqq.com/", repo: "https://github.com/q1953258942/iCloud-Privacy-Mail", category: "mail", categoryName: "邮箱服务", icon: "IP", status: "active", statusText: "可访问", favorite: false },
+  { id: "cloudflare-temp-email", name: "Cloudflare Temp Email", description: "Cloudflare 临时邮箱服务", url: "https://mail.pptqq.com/", repo: "https://github.com/dreamhunter2333/cloudflare_temp_email", category: "mail", categoryName: "邮箱服务", icon: "CF", status: "active", statusText: "可访问", favorite: false },
 ];
 
 const state = {
@@ -28,6 +30,11 @@ function loadProjects() {
     const savedProjects = localStorage.getItem("serviceportal.projects") || localStorage.getItem("servicehub.projects");
     if (!savedProjects) return initialProjects;
     const projects = JSON.parse(savedProjects);
+    if (!Array.isArray(projects)) return initialProjects;
+    // Preserve user customizations while adding newly shipped built-in projects.
+    initialProjects.forEach((project) => {
+      if (!projects.some((saved) => saved && saved.id === project.id)) projects.push(project);
+    });
     localStorage.setItem("serviceportal.projects", JSON.stringify(projects));
     return projects;
   } catch { return initialProjects; }
@@ -54,7 +61,7 @@ function updateInfoMarkup(project) {
   const messages = {
     checking: ["checking", "↻", "正在检查 GitHub 版本…"],
     available: ["available", "↑", `发现新版本 ${update.latestSha || ""} · ${update.latestMessage || "可更新"}`],
-    current: ["current", "✓", `已是最新版本 ${update.localSha || update.latestSha || ""}`],
+    current: ["current", "✓", update.message || `已是最新版本 ${update.localSha || update.latestSha || ""}`],
     unconfigured: ["unconfigured", "◇", update.message || "尚未配置服务器部署目录"],
     blocked: ["blocked", "!", update.message || "更新已被安全策略阻止"],
     error: ["error", "!", update.message || "版本检查失败"],

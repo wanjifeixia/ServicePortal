@@ -27,6 +27,7 @@ function validateProject(item) {
     composeFile: String(item.composeFile || "docker-compose.yml").trim(),
     serviceName,
     updateEnabled: item.updateEnabled === true,
+    skipUpdateCheck: item.skipUpdateCheck === true,
   };
 }
 
@@ -81,11 +82,14 @@ async function getGitHubCommit(project) {
 }
 
 function publicBase(project) {
-  return { id: project.id, repository: project.repository, branch: project.branch, updateEnabled: project.updateEnabled };
+  return { id: project.id, repository: project.repository, branch: project.branch, updateEnabled: project.updateEnabled, skipUpdateCheck: project.skipUpdateCheck };
 }
 
 async function checkProject(project) {
   const base = publicBase(project);
+  if (project.skipUpdateCheck) {
+    return { ...base, state: "current", updateAvailable: false, message: "已是最新版本" };
+  }
   let remote;
   try {
     remote = await getGitHubCommit(project);
