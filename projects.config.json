@@ -4,8 +4,10 @@
     "repository": "wanjifeixia/ServicePortal",
     "branch": "main",
     "deployPath": "/opt/serviceportal",
-    "updateEnabled": false,
-    "skipUpdateCheck": true
+    "serviceName": "serviceportal.service",
+    "updateEnabled": true,
+    "skipUpdateCheck": false,
+    "forceUpdate": true
   },
   {
     "id": "sub2api",
