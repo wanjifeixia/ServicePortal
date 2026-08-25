@@ -11,6 +11,7 @@ install -o root -g root -m 0755 "${repo_dir}/deploy/serviceportal-git-helper.py"
 install -d -o root -g root -m 0755 /usr/local/libexec/serviceportal-bin
 ln -sfn /usr/local/sbin/serviceportal-git /usr/local/libexec/serviceportal-bin/git
 install -o root -g root -m 0440 "${repo_dir}/deploy/serviceportal-git.sudoers" /etc/sudoers.d/serviceportal-git
+install -o root -g root -m 0440 "${repo_dir}/deploy/serviceportal-services.sudoers" /etc/sudoers.d/serviceportal-services
 install -d -o root -g root -m 0755 /etc/systemd/system/serviceportal.service.d
 install -o root -g root -m 0644 "${repo_dir}/deploy/serviceportal-git-path.conf" /etc/systemd/system/serviceportal.service.d/git-path.conf
 

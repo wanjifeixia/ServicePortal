@@ -17,6 +17,7 @@ ALLOWED = {
     "/opt/gpt-outlook-register": "main",
     "/opt/chatgpt2api": "main",
     "/opt/icloud-privacy-mail": "master",
+    "/opt/pay153": "main",
 }
 MUTATING = {"fetch", "merge", "reset", "clean"}
 

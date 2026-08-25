@@ -1,0 +1,5 @@
+# Only allow ServicePortal to restart configured project services.
+serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart serviceportal.service
+serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart gpt-outlook-register.service
+serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart icloud-privacy-mail.service
+serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart pay153.service

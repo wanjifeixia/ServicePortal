@@ -24,3 +24,7 @@ serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail fetc
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail merge --ff-only origin/master
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail reset --hard origin/master
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 clean -fd
