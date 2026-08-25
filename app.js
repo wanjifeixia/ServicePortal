@@ -6,6 +6,7 @@ const initialProjects = [
   { id: "chatgpt2api", name: "ChatGPT2API", description: "ChatGPT 网页能力 API 反代服务", url: "https://chatgpt2api.pptqq.com/", repo: "https://github.com/basketikun/chatgpt2api", category: "ai", categoryName: "AI & API", icon: "C2", status: "active", statusText: "可访问", favorite: true },
   { id: "icloud-privacy-mail", name: "iCloud Privacy Mail", description: "iCloud 隐私邮箱服务", url: "https://icloud-privacy-mail.pptqq.com/", repo: "https://github.com/q1953258942/iCloud-Privacy-Mail", category: "mail", categoryName: "邮箱服务", icon: "IP", status: "active", statusText: "可访问", favorite: false },
   { id: "cloudflare-temp-email", name: "Cloudflare Temp Email", description: "Cloudflare 临时邮箱服务", url: "https://mail.pptqq.com/", repo: "https://github.com/dreamhunter2333/cloudflare_temp_email", category: "mail", categoryName: "邮箱服务", icon: "CF", status: "active", statusText: "可访问", favorite: false },
+  { id: "pay153", name: "PAY.153 Checkout Link", description: "多支付通道提链控制台", url: "https://pay153.pptqq.com/", repo: "https://github.com/1537271403/pay153-checkout-link", category: "tools", categoryName: "工具服务", icon: "P153", status: "active", statusText: "可访问", favorite: false },
 ];
 
 const state = {

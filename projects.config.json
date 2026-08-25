@@ -59,5 +59,14 @@
     "branch": "main",
     "updateEnabled": false,
     "skipUpdateCheck": true
+  },
+  {
+    "id": "pay153",
+    "repository": "1537271403/pay153-checkout-link",
+    "branch": "main",
+    "deployPath": "/opt/pay153",
+    "serviceName": "pay153.service",
+    "updateEnabled": true,
+    "forceUpdate": false
   }
 ]
