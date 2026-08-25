@@ -68,5 +68,14 @@
     "serviceName": "pay153.service",
     "updateEnabled": true,
     "forceUpdate": false
+  },
+  {
+    "id": "paypal-agreement-protocol",
+    "repository": "1537271403/paypal-agreement-protocol",
+    "branch": "main",
+    "deployPath": "/opt/paypal-agreement-protocol",
+    "serviceName": "paypal-agreement-protocol.service",
+    "updateEnabled": true,
+    "forceUpdate": false
   }
 ]

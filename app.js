@@ -7,6 +7,7 @@ const initialProjects = [
   { id: "icloud-privacy-mail", name: "iCloud Privacy Mail", description: "iCloud 隐私邮箱服务", url: "https://icloud-privacy-mail.pptqq.com/", repo: "https://github.com/q1953258942/iCloud-Privacy-Mail", category: "mail", categoryName: "邮箱服务", icon: "IP", status: "active", statusText: "可访问", favorite: false },
   { id: "cloudflare-temp-email", name: "Cloudflare Temp Email", description: "Cloudflare 临时邮箱服务", url: "https://mail.pptqq.com/", repo: "https://github.com/dreamhunter2333/cloudflare_temp_email", category: "mail", categoryName: "邮箱服务", icon: "CF", status: "active", statusText: "可访问", favorite: false },
   { id: "pay153", name: "PAY.153 Checkout Link", description: "多支付通道提链控制台", url: "https://pay153.pptqq.com/", repo: "https://github.com/1537271403/pay153-checkout-link", category: "tools", categoryName: "工具服务", icon: "P153", status: "active", statusText: "可访问", favorite: false },
+  { id: "paypal-agreement-protocol", name: "PayPal Agreement Protocol", description: "PayPal 协议授权工作台", url: "https://pay153.pptqq.com/paypal-pay/", repo: "https://github.com/1537271403/paypal-agreement-protocol", category: "tools", categoryName: "工具服务", icon: "PP", status: "active", statusText: "可访问", favorite: false },
 ];
 
 const state = {
@@ -96,16 +97,20 @@ function renderProjects() {
 }
 
 function renderStats() {
-  document.querySelector("#statProjects").textContent = state.projects.length;
-  document.querySelector("#statHealthy").textContent = state.projects.filter((project) => project.status === "active").length;
+  const total = state.projects.length;
+  const healthy = state.projects.filter((project) => project.status === "active").length;
+  document.querySelector("#statProjects").textContent = total;
+  document.querySelector("#statHealthy").textContent = healthy;
+  document.querySelector("#healthyPercent").textContent = `${total ? Math.round((healthy / total) * 100) : 0}%`;
   document.querySelector("#statUpdates").textContent = Object.values(state.updates).filter((update) => update.state === "available").length;
-  document.querySelector("#allCount").textContent = state.projects.length;
+  document.querySelector("#navOverviewCount").textContent = total;
+  document.querySelector("#allCount").textContent = total;
   ["ai", "mail", "tools"].forEach((category) => { document.querySelector(`#${category}Count`).textContent = state.projects.filter((project) => project.category === category).length; });
 }
 
 function renderActivity() {
   const entries = state.projects.slice(0, 4).map((project, index) => ({ icon: index === 0 ? "↗" : index === 1 ? "✓" : "◌", title: index === 0 ? `访问了 ${project.name}` : index === 1 ? `${project.name} 状态检查通过` : `${project.name} 已加入服务目录`, time: index === 0 ? "刚刚" : `${index + 1} 小时前` }));
-  activityList.innerHTML = entries.map((entry) => `<div class="activity-item"><span class="activity-symbol">${entry.icon}</span><div class="activity-copy"><strong>${escapeHtml(entry.title)}</strong><small>ServicePortal 活动记录</small></div><span class="activity-time">${entry.time}</span></div>`).join("");
+  activityList.innerHTML = entries.map((entry) => `<div class="activity-item"><span class="activity-symbol">${entry.icon}</span><div class="activity-copy"><strong>${escapeHtml(entry.title)}</strong><small>Portal 活动记录</small></div><span class="activity-time">${entry.time}</span></div>`).join("");
 }
 
 function updateView(view) {
@@ -139,7 +144,7 @@ async function loadAuthStatus() {
     state.authConfigured = result.configured;
     if (!result.authenticated) showLoginScreen(result.configured ? "" : "服务器尚未配置管理员令牌");
     else hideLoginScreen();
-  } catch { state.authenticated = false; showLoginScreen("无法连接 ServicePortal 服务，请检查后端是否已启动"); }
+  } catch { state.authenticated = false; showLoginScreen("无法连接 Portal 服务，请检查后端是否已启动"); }
 }
 
 async function checkUpdates(force = false) {
@@ -242,7 +247,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (event) =>
   } catch (error) { document.querySelector("#loginError").textContent = error.message; }
   finally { submitButton.disabled = false; submitButton.textContent = "登录"; document.querySelector("#loginForm input[name=token]").value = ""; }
 });
-document.querySelector("#projectForm").addEventListener("submit", (event) => { event.preventDefault(); const data = new FormData(event.target); const name = data.get("name").trim(); const id = `custom-${Date.now()}`; state.projects.push({ id, name, description: "自定义服务项目", url: data.get("url").trim(), repo: data.get("repo").trim() || "#", category: data.get("category"), categoryName: { ai: "AI & API", mail: "邮箱服务", tools: "工具服务" }[data.get("category")], icon: name.slice(0, 2).toUpperCase(), status: "active", statusText: "已配置", favorite: false }); saveProjects(); state.updates[id] = { state: "unconfigured", message: "自定义项目尚未加入服务器更新白名单" }; renderStats(); renderProjects(); closeModal(); showToast("项目已添加到 ServicePortal"); });
+document.querySelector("#projectForm").addEventListener("submit", (event) => { event.preventDefault(); const data = new FormData(event.target); const name = data.get("name").trim(); const id = `custom-${Date.now()}`; state.projects.push({ id, name, description: "自定义服务项目", url: data.get("url").trim(), repo: data.get("repo").trim() || "#", category: data.get("category"), categoryName: { ai: "AI & API", mail: "邮箱服务", tools: "工具服务" }[data.get("category")], icon: name.slice(0, 2).toUpperCase(), status: "active", statusText: "已配置", favorite: false }); saveProjects(); state.updates[id] = { state: "unconfigured", message: "自定义项目尚未加入服务器更新白名单" }; renderStats(); renderProjects(); closeModal(); showToast("项目已添加到 Portal"); });
 document.querySelector("#mobileMenu").addEventListener("click", () => document.querySelector("#sidebar").classList.toggle("open"));
 
 renderStats();

@@ -7,6 +7,9 @@ if [[ "${EUID}" -ne 0 ]]; then
 fi
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+if id serviceportal >/dev/null 2>&1 && getent group paypalpay >/dev/null 2>&1; then
+  usermod -aG paypalpay serviceportal
+fi
 install -o root -g root -m 0755 "${repo_dir}/deploy/serviceportal-git-helper.py" /usr/local/sbin/serviceportal-git
 install -d -o root -g root -m 0755 /usr/local/libexec/serviceportal-bin
 ln -sfn /usr/local/sbin/serviceportal-git /usr/local/libexec/serviceportal-bin/git

@@ -3,3 +3,4 @@ serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart serviceportal.serv
 serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart gpt-outlook-register.service
 serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart icloud-privacy-mail.service
 serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart pay153.service
+serviceportal ALL=(root) NOPASSWD: /usr/bin/systemctl restart paypal-agreement-protocol.service

@@ -1,0 +1,22 @@
+[Unit]
+Description=PayPal Agreement Protocol Web UI
+After=network-online.target pay153.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=paypalpay
+Group=paypalpay
+WorkingDirectory=/opt/paypal-agreement-protocol
+Environment=PAYPAL_WEB_PRODUCTION=1
+Environment=PAYPAL_WEB_COOKIE_SECURE=1
+Environment=PAYPAL_WEB_PAY153_INTERNAL_BASE=http://127.0.0.1:18096
+Environment=PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+ExecStart=/opt/paypal-agreement-protocol/.venv/bin/python /opt/paypal-agreement-protocol/web.py --host 127.0.0.1 --port 18097
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

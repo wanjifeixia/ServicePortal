@@ -28,3 +28,10 @@ serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 fetch --prune ori
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 merge --ff-only origin/main
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 reset --hard origin/main
 serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/pay153 clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol config --get remote.origin.url
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol status --porcelain --untracked-files=no
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol rev-parse HEAD
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/paypal-agreement-protocol clean -fd

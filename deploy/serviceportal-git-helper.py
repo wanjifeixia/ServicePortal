@@ -18,8 +18,10 @@ ALLOWED = {
     "/opt/chatgpt2api": "main",
     "/opt/icloud-privacy-mail": "master",
     "/opt/pay153": "main",
+    "/opt/paypal-agreement-protocol": "main",
 }
 MUTATING = {"fetch", "merge", "reset", "clean"}
+READ_ONLY = {"config", "status", "rev-parse"}
 
 
 def main():
@@ -32,18 +34,25 @@ def main():
         raise SystemExit("serviceportal-git: path not allowed")
 
     command = args[2]
-    if command not in MUTATING:
+    if command not in MUTATING and command not in READ_ONLY:
         os.execv("/usr/bin/git", ["/usr/bin/git", *args])
 
     branch = ALLOWED[path]
     expected = {
+        "config": ["-C", path, "config", "--get", "remote.origin.url"],
+        "status": ["-C", path, "status", "--porcelain", "--untracked-files=no"],
+        "rev-parse": ["-C", path, "rev-parse", "HEAD"],
         "fetch": ["-C", path, "fetch", "--prune", "origin", branch],
         "merge": ["-C", path, "merge", "--ff-only", f"origin/{branch}"],
         "reset": ["-C", path, "reset", "--hard", f"origin/{branch}"],
         "clean": ["-C", path, "clean", "-fd"],
-    }[command]
-    if args != expected:
+    }.get(command)
+    if expected is None or args != expected:
+        if command in READ_ONLY:
+            os.execv("/usr/bin/git", ["/usr/bin/git", *args])
         raise SystemExit("serviceportal-git: command not allowed")
+    if command in READ_ONLY:
+        os.execv("/usr/bin/git", ["/usr/bin/git", *args])
 
     os.execv("/usr/bin/sudo", ["/usr/bin/sudo", "-n", "/usr/bin/git", *args])
 
