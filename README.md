@@ -32,6 +32,16 @@ export SERVICEPORTAL_ADMIN_TOKEN='使用密码管理器生成的长随机值'
 
 更新流程固定为：检查仓库来源与工作区状态 → `git fetch` → `git merge --ff-only` → `docker compose up -d --build`。系统不会执行网页传入的任意命令。
 
+### 新服务器初始化更新权限
+
+ServicePortal 不需要完整 root 权限。新服务器部署完成并创建 `serviceportal.service` 后，以 root 执行一次：
+
+```bash
+sudo bash deploy/install-update-permissions.sh
+```
+
+脚本会安装 root 所有、命令受限的 Git 助手，并配置 `sudoers` 和 systemd 环境。它只允许白名单项目执行固定分支的 `fetch`、`merge`、`reset` 和 `clean`，不会开放任意 root 命令，也不会修改项目运行数据目录的所有权。新增项目时，应同时审核并更新 `deploy/serviceportal-git-helper.py` 和 `deploy/serviceportal-git.sudoers`。
+
 当前已按已知服务器信息预配置三个项目路径：
 
 - Sub2API：`/root/sub2api-deploy`

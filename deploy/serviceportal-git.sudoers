@@ -1,0 +1,26 @@
+# Generated/installed by deploy/install-update-permissions.sh.
+# Keep arguments exact; do not replace these with unrestricted git access.
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/serviceportal fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/serviceportal merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/serviceportal reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/serviceportal clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /root/sub2api-deploy fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /root/sub2api-deploy merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /root/sub2api-deploy reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /root/sub2api-deploy clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/inboxops fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/inboxops merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/inboxops reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/inboxops clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/gpt-outlook-register fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/gpt-outlook-register merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/gpt-outlook-register reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/gpt-outlook-register clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/chatgpt2api fetch --prune origin main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/chatgpt2api merge --ff-only origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/chatgpt2api reset --hard origin/main
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/chatgpt2api clean -fd
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail fetch --prune origin master
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail merge --ff-only origin/master
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail reset --hard origin/master
+serviceportal ALL=(root) NOPASSWD: /usr/bin/git -C /opt/icloud-privacy-mail clean -fd
