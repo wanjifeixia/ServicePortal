@@ -1,0 +1,8 @@
+/* Compact project cards */
+.project-grid { gap: 12px; }
+.project-card { padding: 15px; min-height: 176px; border-radius: 12px; }
+.service-icon { width: 34px; height: 34px; border-radius: 9px; font-size: 14px; }
+.card-title { margin: 12px 0 4px; font-size: 13px; }
+.card-description { font-size: 10px; line-height: 1.5; min-height: 30px; }
+.card-meta { padding-top: 11px; }
+.card-actions { margin-top: 11px; padding-top: 9px; }
