@@ -8,6 +8,7 @@ const initialProjects = [
   { id: "cloudflare-temp-email", name: "Cloudflare Temp Email", description: "Cloudflare 临时邮箱服务", url: "https://mail.pptqq.com/", repo: "https://github.com/dreamhunter2333/cloudflare_temp_email", category: "mail", categoryName: "邮箱服务", icon: "CF", status: "active", statusText: "可访问", favorite: false },
   { id: "pay153", name: "PAY.153 Checkout Link", description: "多支付通道提链控制台", url: "https://pay153.pptqq.com/", repo: "https://github.com/1537271403/pay153-checkout-link", category: "tools", categoryName: "工具服务", icon: "P153", status: "active", statusText: "可访问", favorite: false },
   { id: "paypal-agreement-protocol", name: "PayPal Agreement Protocol", description: "PayPal 协议授权工作台", url: "https://pay153.pptqq.com/paypal-pay/", repo: "https://github.com/1537271403/paypal-agreement-protocol", category: "tools", categoryName: "工具服务", icon: "PP", status: "active", statusText: "可访问", favorite: false },
+  { id: "kiro-rs", name: "Kiro.rs", description: "Kiro API 管理控制台", url: "https://kirors.pptqq.com/admin", repo: "https://github.com/hank9999/kiro.rs", category: "ai", categoryName: "AI & API", icon: "KR", status: "active", statusText: "可访问", favorite: false },
 ];
 
 const state = {
