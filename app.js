@@ -7,9 +7,10 @@ const initialProjects = [
   { id: "icloud-privacy-mail", name: "iCloud Privacy Mail", description: "iCloud 隐私邮箱服务", url: "https://icloud-privacy-mail.pptqq.com/", repo: "https://github.com/q1953258942/iCloud-Privacy-Mail", category: "mail", categoryName: "邮箱服务", icon: "IP", status: "active", statusText: "可访问", favorite: false },
   { id: "cloudflare-temp-email", name: "Cloudflare Temp Email", description: "Cloudflare 临时邮箱服务", url: "https://mail.pptqq.com/", repo: "https://github.com/dreamhunter2333/cloudflare_temp_email", category: "mail", categoryName: "邮箱服务", icon: "CF", status: "active", statusText: "可访问", favorite: false },
   { id: "pay153", name: "PAY.153 Checkout Link", description: "多支付通道提链控制台", url: "https://pay153.pptqq.com/", repo: "https://github.com/1537271403/pay153-checkout-link", category: "tools", categoryName: "工具服务", icon: "P153", status: "active", statusText: "可访问", favorite: false },
-  { id: "paypal-agreement-protocol", name: "PayPal Agreement Protocol", description: "PayPal 协议授权工作台", url: "https://pay153.pptqq.com/paypal-pay/", repo: "https://github.com/1537271403/paypal-agreement-protocol", category: "tools", categoryName: "工具服务", icon: "PP", status: "active", statusText: "可访问", favorite: false },
   { id: "kiro-rs", name: "Kiro.rs", description: "Kiro API 管理控制台", url: "https://kirors.pptqq.com/admin", repo: "https://github.com/hank9999/kiro.rs", category: "ai", categoryName: "AI & API", icon: "KR", status: "active", statusText: "可访问", favorite: false },
 ];
+
+const removedProjectIds = new Set(["paypal-agreement-protocol"]);
 
 const state = {
   projects: loadProjects(),
@@ -32,8 +33,9 @@ function loadProjects() {
   try {
     const savedProjects = localStorage.getItem("serviceportal.projects") || localStorage.getItem("servicehub.projects");
     if (!savedProjects) return initialProjects;
-    const projects = JSON.parse(savedProjects);
-    if (!Array.isArray(projects)) return initialProjects;
+    const parsedProjects = JSON.parse(savedProjects);
+    if (!Array.isArray(parsedProjects)) return initialProjects;
+    const projects = parsedProjects.filter((project) => project && !removedProjectIds.has(project.id));
     // Preserve user customizations while adding newly shipped built-in projects.
     initialProjects.forEach((project) => {
       if (!projects.some((saved) => saved && saved.id === project.id)) projects.push(project);

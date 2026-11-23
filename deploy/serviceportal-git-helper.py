@@ -18,7 +18,6 @@ ALLOWED = {
     "/opt/chatgpt2api": "main",
     "/opt/icloud-privacy-mail": "master",
     "/opt/pay153": "main",
-    "/opt/paypal-agreement-protocol": "main",
 }
 MUTATING = {"fetch", "merge", "reset", "clean"}
 READ_ONLY = {"config", "status", "rev-parse"}
