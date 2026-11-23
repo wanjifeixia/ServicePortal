@@ -28,7 +28,7 @@
   },
   {
     "id": "gpt-outlook-register",
-    "repository": "Regert888/gpt-outlook-register",
+    "repository": "Regert888/gpt-auto-register",
     "branch": "main",
     "deployPath": "/opt/gpt-outlook-register",
     "composeFile": "docker-compose.yml",
